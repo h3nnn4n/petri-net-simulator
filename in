@@ -1,0 +1,26 @@
+# This is a comment
+% this is also
+// So this is
+
+
+# This insert a collection of places
+insert places p1 p2 p3 p4
+
+# This insert a collection of transitions
+insert trans t1 t2 t3
+
+# Insertion of an arc with weight 1
+insert arc p1 -> t1
+
+# Insertion of an arc with arbitrary weight
+insert arc t1 -> p3 2
+
+# This print the places, transitions, edges, tokens  and the whole net respectively
+print places
+print trans
+print edges
+print tokens
+print
+
+# This close the program
+close
