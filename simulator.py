@@ -10,12 +10,14 @@
 def input_arc_sane(net, a):
     places = net[0]
     trans = net[1]
-
-
     if a not in places:
         if a not in trans:
             print("Error: Loose arc!")
             return False
+
+    if a in places and a in trans:
+        print("Error: Duplicated state")
+        return False
 
     return True
 
@@ -29,7 +31,7 @@ def input_arc_really_sane(net, a, b):
     if b in places and a in trans:
         return True
 
-    print("Error: ???")
+    print("Error: Something is messy!")
     return False
 
 def insert_edge(net, a, b, weigth=1):
@@ -42,12 +44,16 @@ def insert_edge(net, a, b, weigth=1):
     net[2].append((a, b, weigth))
 
 def insert_place(net, place):
-    if place not in net[0]:
+    if place not in net[0] and place not in net[1]:
         net[0].append(place)
+    else:
+        print("Error: This already exists!")
 
 def insert_transtion(net, transition):
-    if transition not in net[1]:
+    if transition not in net[1] and transition not in net[0]:
         net[1].append(transition)
+    else:
+        print("Error: This already exists!")
 
 def print_places(net):
     if len(net[0]) > 0:
@@ -59,7 +65,7 @@ def print_places(net):
         print("No place yet.")
 
 def print_transitions(net):
-    if len(net[0]) > 0:
+    if len(net[1]) > 0:
         print("Transitions are:")
         for transition in net[1]:
             print(transition, end=" ")
@@ -68,7 +74,7 @@ def print_transitions(net):
         print("No transition yet.")
 
 def print_edges(net):
-    if len(net[0]) > 0:
+    if len(net[2]) > 0:
         print("Edges are:")
         for edge in net[2]:
             print(edge, end=" ")
@@ -77,7 +83,7 @@ def print_edges(net):
         print("No edge yet.")
 
 def print_tokens(net):
-    if len(net[0]) > 0:
+    if len(net[3]) > 0:
         print("Tokens are:")
         for token in net[3]:
             print(token, end=" ")
@@ -91,7 +97,7 @@ def print_net(net):
     print_edges(net)
     print_tokens(net)
 
-def menu():
+def main():
     nets = []
     nets.append(([],[],[],[]))
 
@@ -100,10 +106,14 @@ def menu():
     while True:
         cmd = input('> ').split(' ')
 
-        print(cmd)
+        if cmd[0] not in ['#','%','//'] and cmd[0] != '':
+            print(cmd)
 
         if cmd[0] in ['quit','exit','close']:
             break
+
+        if cmd[0] in ['#','%','//']:
+            continue
 
         if cmd[0] == 'print':
             if len(cmd) > 1:
@@ -137,8 +147,5 @@ def menu():
                             insert_edge(active_net, cmd[2], cmd[4])
                         else:
                             insert_edge(active_net, cmd[2], cmd[4], cmd[5])
-
-def main():
-    menu()
 
 main()
