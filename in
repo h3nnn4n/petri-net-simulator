@@ -2,18 +2,25 @@
 % this is also
 // So this is
 
-
 # This insert a collection of places
 insert places p1 p2 p3 p4
 
 # This insert a collection of transitions
-insert trans t1 t2 t3
+insert trans t1 t2
 
-# Insertion of an arc with weight 1
+# Insertion of an arc with weight 1 and so on
 insert arc p1 -> t1
+insert arc p2 -> t2
+insert arc p3 -> t2
 
 # Insertion of an arc with arbitrary weight
-insert arc t1 -> p3 2
+insert arc t1 -> p2
+insert arc t1 -> p3
+insert arc t2 -> p4
+insert arc t2 -> p1
+
+# Set a specific toke
+set token p2 2
 
 # This print the places, transitions, edges, tokens  and the whole net respectively
 print places
