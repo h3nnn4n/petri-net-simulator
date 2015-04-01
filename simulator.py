@@ -55,6 +55,14 @@ def insert_transtion(net, transition):
     else:
         print("Error: This already exists!")
 
+def set_token(net, place, token):
+    for i in net[3]:
+        if i[0] == place:
+            i[0] = token
+            return
+
+    net[3].append((place,token))
+
 def print_places(net):
     if len(net[0]) > 0:
         print("Places are:")
@@ -77,7 +85,7 @@ def print_edges(net):
     if len(net[2]) > 0:
         print("Edges are:")
         for edge in net[2]:
-            print(edge, end=" ")
+            print(str(edge[0]) + ' -> ' + str(edge[1]))
         print("")
     else:
         print("No edge yet.")
@@ -86,7 +94,7 @@ def print_tokens(net):
     if len(net[3]) > 0:
         print("Tokens are:")
         for token in net[3]:
-            print(token, end=" ")
+            print(str(token[0]) + ' = ' + str(token[1]))
         print("")
     else:
         print("No token yet.")
@@ -147,5 +155,11 @@ def main():
                             insert_edge(active_net, cmd[2], cmd[4])
                         else:
                             insert_edge(active_net, cmd[2], cmd[4], cmd[5])
+
+        if cmd[0] == 'set':
+            if len(cmd) > 1:
+                if cmd[1] in 'tokens':
+                    if len(cmd) == 4:
+                        set_token(active_net, cmd[2], cmd[3])
 
 main()
