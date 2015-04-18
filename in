@@ -29,5 +29,15 @@ print edges
 print tokens
 print
 
+# Test connectivity
+test conn
+
+# test if the net is pure
+test purity
+
+insert arc t1 -> p1
+
+test purity
+
 # This close the program
 close

@@ -7,6 +7,54 @@
 # the third is the edges
 # and the fourth is the tokens
 
+def test_conectivity(net):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+
+    # Makes a list with both places and transitions
+    todo = []
+    todo.extend(places)
+    todo.extend(trans)
+
+    # Makes a second set for the visited vertex
+    x = todo.pop()
+    do = set()
+    do.add(x)
+
+    while todo:
+        old = todo.copy()
+        doing = do.copy()
+
+        for x in doing:
+            for i in edges:
+
+                if i[0] == x:
+                    do.add(i[1])
+                    if i[1] in todo:
+                        todo.remove(i[1])
+
+                if i[1] == x:
+                    do.add(i[0])
+                    if i[0] in todo:
+                        todo.remove(i[0])
+        if old == todo:
+            return False
+
+    return True
+
+def is_pure(net):
+    edges = set()
+
+    for edge in net[2]:
+        edges.add((edge[0], edge[1]))
+
+    for edge in edges:
+        if (edge[1], edge[0]) in edges:
+            return False
+
+    return True
+
 def input_arc_sane(net, a):
     places = net[0]
     trans = net[1]
@@ -122,6 +170,15 @@ def main():
 
         if cmd[0] in ['#','%','//']:
             continue
+
+        if cmd[0] == 'test':
+            if len(cmd) > 1:
+                if cmd[1] in 'connectivity':
+                    print(test_conectivity(active_net))
+                if cmd[1] in ['purity','pure']:
+                    print(is_pure(active_net))
+            else:
+                pass
 
         if cmd[0] == 'print':
             if len(cmd) > 1:
