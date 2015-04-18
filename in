@@ -34,10 +34,13 @@ test conn
 
 # test if the net is pure
 test purity
-
 insert arc t1 -> p1
-
 test purity
+
+# Print the {pre, pos} condition and incidence matrix
+print prec
+print posc
+print incidence
 
 # This close the program
 close

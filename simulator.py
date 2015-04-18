@@ -7,6 +7,84 @@
 # the third is the edges
 # and the fourth is the tokens
 
+def get_poscondition_matrix(net):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+
+    matrix = []
+
+    for i in range(len(places)):
+        matrix.append([0 for x in range(len(trans))])
+
+    pl = dict(zip(places,[x for x in range(len(places))]))
+    tr = dict(zip(trans ,[x for x in range(len(trans ))]))
+
+    for edge in edges:
+        if edge[0] in trans:
+            matrix[pl[edge[1]]][tr[edge[0]]] = 1
+
+    return matrix
+
+def print_poscondition_matrix(net):
+
+    matrix = get_poscondition_matrix(net)
+
+    for i in matrix:
+        print(i)
+
+def get_precondition_matrix(net):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+
+    matrix = []
+
+    for i in range(len(places)):
+        matrix.append([0 for x in range(len(trans))])
+
+    pl = dict(zip(places,[x for x in range(len(places))]))
+    tr = dict(zip(trans ,[x for x in range(len(trans ))]))
+
+    for edge in edges:
+        if edge[0] in places:
+            matrix[pl[edge[0]]][tr[edge[1]]] = 1
+
+    return matrix
+
+def print_precondition_matrix(net):
+
+    matrix = get_precondition_matrix(net)
+
+    for i in matrix:
+        print(i)
+
+def get_incidence_matrix(net):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+
+    matrix = []
+
+    for i in range(len(places)):
+        matrix.append([0 for x in range(len(trans))])
+
+    I = get_precondition_matrix(net)
+    O = get_poscondition_matrix(net)
+
+    for x in range(len(places)):
+        for y in range(len(trans)):
+            matrix[x][y] = O[x][y] - I[x][y]
+
+    return matrix
+
+def print_incidence_matrix(net):
+
+    matrix = get_incidence_matrix(net)
+
+    for i in matrix:
+        print(i)
+
 def test_conectivity(net):
     places = net[0]
     trans = net[1]
@@ -190,6 +268,12 @@ def main():
                     print_edges(active_net)
                 elif cmd[1] in 'tokens':
                     print_tokens(active_net)
+                elif cmd[1] in 'precondition':
+                    print_precondition_matrix(active_net)
+                elif cmd[1] in 'poscondition':
+                    print_poscondition_matrix(active_net)
+                elif cmd[1] in 'incidence':
+                    print_incidence_matrix(active_net)
             else:
                 print_net(active_net)
 
