@@ -1,4 +1,5 @@
-# This is a comment
+# This is a1 comment
+
 % this is also
 // So this is
 
@@ -19,23 +20,45 @@ insert arc t1 -> p3
 insert arc t2 -> p4
 insert arc t2 -> p1
 
-# Set a specific toke
+# Set a specific token
 set token p2 2
+set token p1 6
 
-# This print the places, transitions, edges, tokens  and the whole net respectively
+# This print the places, transitions, edges, tokens, vector tokens and the whole net respectively
 print places
 print trans
 print edges
 print tokens
+print token vector
 print
+
+# Change a token in a place
+set token p1 2
+print tokens
+
+# Tests if a transition is active
+test t1
+test t2
 
 # Test connectivity
 test conn
 
+#remove
+remove p4
+print places
+print edges
+
 # test if the net is pure
 test purity
+
+# Remoev purity
 insert arc t1 -> p1
 test purity
+
+# remove edge
+remove t1 -> p1
+test purity
+print edges
 
 # Print the {pre, pos} condition and incidence matrix
 print prec
