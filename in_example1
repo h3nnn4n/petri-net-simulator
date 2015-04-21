@@ -1,0 +1,25 @@
+insert places p1 p2 p3 p4
+insert trans t1 t2
+
+insert arc p1 -> t1
+insert arc p2 -> t2
+insert arc p3 -> t2
+
+insert arc t1 -> p2
+insert arc t1 -> p3
+insert arc t2 -> p4 3
+insert arc t2 -> p1
+
+set token p1 1
+
+print
+
+trigger t1
+
+print token matrix
+
+trigger t2
+
+print token matrix
+
+close
