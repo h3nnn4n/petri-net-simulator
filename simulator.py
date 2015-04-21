@@ -26,6 +26,79 @@
 # the third is the edges
 # and the fourth is the tokens
 
+def trigger_transition(net, transition):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+    tokens = net[3]
+
+    if is_transition_active(net, transition):
+        C = get_incidence_matrix(net)
+
+        T = get_tokens_vector(net)
+
+        tr = dict(zip(trans ,[x for x in range(len(trans))]))
+
+        ii = [ x[tr[transition]] for x in C]
+
+        #print("C =", ii, "T =", T)
+
+        m1 = [ a + b for a, b in zip(T, ii)]
+
+        #print("m1 =", x)
+
+        tokens = m1
+
+        return True
+    else:
+        return False
+
+def is_transition_active(net, transition):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+    tokens = net[3]
+
+    I = get_precondition_matrix(net)
+
+    T = get_tokens_vector(net)
+
+    tr = dict(zip(trans ,[x for x in range(len(trans))]))
+
+    is_active = True
+
+    #for i in I:
+    #    print(i)
+
+    #print("-----------")
+    ii = [ x[tr[transition]] for x in I]
+
+    #print("ii =", ii, "tr =", tr[transition], "tokens =", T)
+    #print("")
+
+    for n, i in enumerate(ii):
+    #    print("i =", i, "T[n] =", T[n], "n =", n)
+        if i > T[n]:
+            is_active = False
+            return False
+
+    return True
+
+def get_tokens_vector(net):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+    tokens = net[3]
+
+    vector = [0 for x in range(len(places))]
+
+    tk = dict(zip(places,[x for x in range(len(places))]))
+
+    for token in tokens:
+        vector[tk[token[0]]] = int(token[1])
+
+    return vector
+
 def get_poscondition_matrix(net):
     places = net[0]
     trans = net[1]
@@ -201,12 +274,35 @@ def insert_transtion(net, transition):
         print("Error: This already exists!")
 
 def set_token(net, place, token):
-    for i in net[3]:
+    for n, i in enumerate(net[3]):
         if i[0] == place:
-            i[0] = token
-            return
+            net[3].pop(n)
 
     net[3].append((place,token))
+
+def remove_vertex(net, vertex):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+
+    for n, i in enumerate(places):
+        if i == vertex:
+            places.pop(n)
+
+    for n, i in enumerate(edges):
+        if i[0] == vertex:
+            edges.pop(n)
+        elif i[1] == vertex:
+            edges.pop(n)
+
+def remove_edge(net, a, b):
+    places = net[0]
+    trans = net[1]
+    edges = net[2]
+
+    for n, i in enumerate(edges):
+        if a == i[0] and b == i[1]:
+            edges.pop(n)
 
 def print_places(net):
     if len(net[0]) > 0:
@@ -236,11 +332,12 @@ def print_edges(net):
         print("No edge yet.")
 
 def print_tokens(net):
+    print(net[3])
     if len(net[3]) > 0:
         print("Tokens are:")
         for token in net[3]:
             print(str(token[0]) + ' = ' + str(token[1]))
-            print("")
+            #print("")
     else:
         print("No token yet.")
 
@@ -260,13 +357,20 @@ def main():
         cmd = input('> ').split(' ')
 
         if cmd[0] not in ['#','%','//'] and cmd[0] != '':
-        print(cmd)
+            print(cmd)
 
         if cmd[0] in ['quit','exit','close']:
             break
 
         if cmd[0] in ['#','%','//']:
-        continue
+            continue
+
+        if cmd[0] in ['trigger']:
+            if len(cmd) == 2:
+                trigger_transition(active_net, cmd[1])
+            elif len(cmd) > 2:
+                for t in cmd[1::]:
+                    trigger_transition(active_net, t)
 
         if cmd[0] == 'test':
             if len(cmd) > 1:
@@ -276,6 +380,14 @@ def main():
                         print(is_pure(active_net))
                     else:
                         pass
+                if cmd[1] in active_net[1]:
+                    print(is_transition_active(active_net, cmd[1]))
+
+        if cmd[0] == 'remove':
+            if len(cmd) == 2:
+                remove_vertex(active_net, cmd[1])
+            elif len(cmd) == 4:
+                remove_edge(active_net, cmd[1], cmd[3])
 
         if cmd[0] == 'print':
             if len(cmd) > 1:
@@ -286,7 +398,11 @@ def main():
                 elif cmd[1] in 'edges':
                     print_edges(active_net)
                 elif cmd[1] in 'tokens':
-                    print_tokens(active_net)
+                    if len(cmd) > 2:
+                        if cmd[2] in ['matrix','vector']:
+                            print(get_tokens_vector(active_net))
+                    else:
+                        print_tokens(active_net)
                 elif cmd[1] in 'precondition':
                     print_precondition_matrix(active_net)
                 elif cmd[1] in 'poscondition':
@@ -321,5 +437,6 @@ def main():
                 if cmd[1] in 'tokens':
                     if len(cmd) == 4:
                         set_token(active_net, cmd[2], cmd[3])
+        print("")
 
 main()
