@@ -1,5 +1,24 @@
 #!/usr/bin/python3
 
+"""
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Wrote in April 2015 by Renan S. Silva
+
+"""
+
+
 # net = ([],[],[],[])
 #
 # Where the first list is the places
@@ -116,8 +135,8 @@ def test_conectivity(net):
                     do.add(i[0])
                     if i[0] in todo:
                         todo.remove(i[0])
-        if old == todo:
-            return False
+                        if old == todo:
+                            return False
 
     return True
 
@@ -194,7 +213,7 @@ def print_places(net):
         print("Places are:")
         for place in net[0]:
             print(place, end=" ")
-        print("")
+            print("")
     else:
         print("No place yet.")
 
@@ -203,7 +222,7 @@ def print_transitions(net):
         print("Transitions are:")
         for transition in net[1]:
             print(transition, end=" ")
-        print("")
+            print("")
     else:
         print("No transition yet.")
 
@@ -212,7 +231,7 @@ def print_edges(net):
         print("Edges are:")
         for edge in net[2]:
             print(str(edge[0]) + ' -> ' + str(edge[1]))
-        print("")
+            print("")
     else:
         print("No edge yet.")
 
@@ -221,7 +240,7 @@ def print_tokens(net):
         print("Tokens are:")
         for token in net[3]:
             print(str(token[0]) + ' = ' + str(token[1]))
-        print("")
+            print("")
     else:
         print("No token yet.")
 
@@ -241,22 +260,22 @@ def main():
         cmd = input('> ').split(' ')
 
         if cmd[0] not in ['#','%','//'] and cmd[0] != '':
-            print(cmd)
+        print(cmd)
 
         if cmd[0] in ['quit','exit','close']:
             break
 
         if cmd[0] in ['#','%','//']:
-            continue
+        continue
 
         if cmd[0] == 'test':
             if len(cmd) > 1:
                 if cmd[1] in 'connectivity':
                     print(test_conectivity(active_net))
-                if cmd[1] in ['purity','pure']:
-                    print(is_pure(active_net))
-            else:
-                pass
+                    if cmd[1] in ['purity','pure']:
+                        print(is_pure(active_net))
+                    else:
+                        pass
 
         if cmd[0] == 'print':
             if len(cmd) > 1:
@@ -274,8 +293,8 @@ def main():
                     print_poscondition_matrix(active_net)
                 elif cmd[1] in 'incidence':
                     print_incidence_matrix(active_net)
-            else:
-                print_net(active_net)
+                else:
+                    print_net(active_net)
 
         if cmd[0] == 'insert':
             if len(cmd) > 2:
