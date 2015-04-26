@@ -216,6 +216,8 @@ def test_conectivity(net):
                         todo.remove(i[0])
                         if old == todo:
                             return False
+        if todo == old:
+            return False
 
     return True
 
