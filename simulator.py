@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 """
+    Petri net simulator Copyright (C) 2015 Renan S. Silva
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -13,9 +15,6 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    Wrote in April 2015 by Renan S. Silva
-
 """
 
 
@@ -379,6 +378,12 @@ def print_net(net):
     print(get_tokens_vector(net))
 
 def main():
+
+    print("Petri net simulator Copyright (C) 2015 Renan S. Silva")
+    print("This program comes with ABSOLUTELY NO WARRANTY; for details see LICENSE.")
+    print("This is free software, and you are welcome to redistribute it")
+    print("under certain conditions.")
+    print("------------------------------------------------------------------------\n")
 
     iterative = True
     iterative = False
