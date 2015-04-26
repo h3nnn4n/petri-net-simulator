@@ -379,18 +379,26 @@ def print_net(net):
     print(get_tokens_vector(net))
 
 def main():
+
+    iterative = True
+    iterative = False
+
     nets = []
     nets.append(([],[],[],[]))
 
     active_net = nets[0]
 
     while True:
-        #cmd = input('> ').split(' ')
-        cmd = input().split(' ')
+        if iterative:
+            cmd = input('> ').split(' ')
+        else:
+            cmd = input().split(' ')
 
         if cmd[0] not in ['#','%','//'] and cmd[0] != '':
-            #print(cmd)
-            pass
+            if iterative:
+                print(cmd)
+            else:
+                pass
 
         if cmd[0] in ['quit','exit','close']:
             break
@@ -400,11 +408,14 @@ def main():
 
         if cmd[0] in ['trigger']:
             if len(cmd) == 2:
-                #active_net = trigger_transition(active_net, cmd[1])
                 print(trigger_transition(active_net, cmd[1]))
             elif len(cmd) > 2:
                 for t in cmd[1::]:
-                    print(trigger_transition(active_net, t))
+                    ret = trigger_transition(active_net, t)
+                    print(ret)
+                    if ret == False:
+                        #print("Not possible")
+                        break
 
         if cmd[0] == 'test':
             if len(cmd) > 1:
@@ -477,6 +488,7 @@ def main():
                 if cmd[1] in 'tokens':
                     if len(cmd) == 4:
                         set_token(active_net, cmd[2], cmd[3])
-        #print("")
+        if iterative:
+            print("")
 
 main()
