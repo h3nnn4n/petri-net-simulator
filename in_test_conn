@@ -1,0 +1,16 @@
+insert places p1 p2 p3 p4
+insert trans t1 t2
+
+insert arc p1 -> t1
+insert arc p3 -> t2
+
+insert arc t1 -> p2
+insert arc t2 -> p4
+
+test conn
+
+insert arc t2 -> p2
+
+test conn
+
+close
