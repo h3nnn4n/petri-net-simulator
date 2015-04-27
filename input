@@ -1,0 +1,21 @@
+# A rede passada em sada de aula para os testes
+
+insert places p1 p2 p3
+insert trans a b c d 
+
+insert arc a -> p1
+insert arc b -> p2
+insert arc c -> p3
+insert arc d -> p2 3
+insert arc p1 -> b 
+insert arc p2 -> a
+insert arc p2 -> c 3
+insert arc p3 -> d
+
+test conn
+
+print prec
+print posc
+print inc
+
+close
