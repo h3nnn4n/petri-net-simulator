@@ -386,7 +386,7 @@ def main():
     print("------------------------------------------------------------------------\n")
 
     iterative = True
-    iterative = False
+    #iterative = False
 
     nets = []
     nets.append(([],[],[],[]))
@@ -424,14 +424,14 @@ def main():
 
         if cmd[0] == 'test':
             if len(cmd) > 1:
-                if cmd[1] in 'connectivity':
+                if cmd[1] in active_net[1]:
+                    print(is_transition_active(active_net, cmd[1]))
+                elif cmd[1] in 'connectivity':
                     print(test_conectivity(active_net))
                     if cmd[1] in ['purity','pure']:
                         print(is_pure(active_net))
                     else:
                         pass
-                if cmd[1] in active_net[1]:
-                    print(is_transition_active(active_net, cmd[1]))
 
         if cmd[0] == 'remove':
             if len(cmd) == 2:
